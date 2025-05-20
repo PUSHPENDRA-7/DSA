@@ -1,0 +1,29 @@
+class Solution {
+    public boolean isZeroArray(int[] nums, int[][] queries) {
+        int n = nums.length;
+
+        //Step1:Make diff array using query
+        int[] diff = new int[n + 1];
+        for(int[]query: queries){
+            int start = query[0];
+            int end = query[1];
+            diff[start] += 1;
+            diff[end+1] -= 1;
+        }
+
+        //step2 Find comulative effect on each index
+        int result[] = new int[diff.length];
+        int cumSum = 0;
+        for(int i=0; i<n; i++){
+            cumSum += diff[i];
+            result[i] = cumSum;
+        }
+
+        for(int i=0; i<n; i++){
+            if(result[i] < nums[i]) // nums[i] want become 0 ever
+            return false;
+        }
+
+        return true;
+    }
+}
